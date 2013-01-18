@@ -1,0 +1,26 @@
+.filelist-element table{
+    width: 100%;
+    border: 1px solid #B7B7B7;
+    margin-bottom: 20px;
+}
+#inhalt .filelist-element table td{
+    padding: 15px;
+}
+.filelist-element .thumb{
+    width: 20%;
+    border-right: 1px solid #B7B7B7;
+}
+.filelist-element .description{
+    margin-top: 20px;
+}
+.filelist-element .ff-fix-wrapper{
+    position: relative;
+}
+.filelist-element .downloadlink{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.filelist-element .fileinfo{
+    display: block;
+}

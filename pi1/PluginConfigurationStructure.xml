@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+	<meta>
+	<langDisable>1</langDisable>
+	<!--  <langChildren>1</langChildren>!-->
+		</meta>
+<sheets>
+	<sDEF>
+	<ROOT>
+		<TCEforms>
+			<sheetTitle>Dateilisteneinstellungen</sheetTitle>
+		</TCEforms>
+		<type>array</type>
+		<el>
+                    <useDAM>
+			<TCEforms>
+                            <exclude>1</exclude>
+				<label>DAM nutzen?</label>
+				<config>
+					<type>select</type>
+					<items type="array">
+					<numIndex index="0" type="array">
+						<numIndex index="0">Standard</numIndex>
+						<numIndex index="1"></numIndex>
+					</numIndex>
+					<numIndex index="1" type="array">
+						<numIndex index="0">Ja</numIndex>
+						<numIndex index="1">true</numIndex>
+					</numIndex>
+					<numIndex index="2" type="array">
+						<numIndex index="0">Nein</numIndex>
+						<numIndex index="1">false</numIndex>
+					</numIndex>
+					</items>									
+					<size>1</size>
+				</config>
+			</TCEforms>
+		</useDAM>
+                <template>
+			<TCEforms>
+				<label>Vorlage</label>
+				<config>
+					<type>select</type>
+					<items type="array">
+					<numIndex index="0" type="array">
+						<numIndex index="0">Standard</numIndex>
+						<numIndex index="1">default</numIndex>
+					</numIndex>					
+					</items>					
+					<maxitems>1</maxitems>
+					<size>1</size>
+				</config>
+			</TCEforms>
+		</template>
+		<entriesPerPage>
+			<TCEforms>
+			<label>Einträge pro Seite</label>
+			<config>
+				<type>input</type>
+				<eval>num</eval>
+				<checkbox></checkbox>
+				<size>4</size>
+			</config>
+			</TCEforms>
+		</entriesPerPage>
+                <category>
+                <TCEforms>
+                 <exclude>1</exclude>
+                 <label>Kategorie(en)</label>
+                 <config>
+                                                 <form_type>user</form_type>
+                                                 <userFunc>EXT:dam/lib/class.tx_dam_tcefunc.php:&amp;tx_dam_tceFunc->getSingleField_selectTree</userFunc>
+                                                 <treeViewClass>EXT:dam/components/class.tx_dam_selectionCategory.php:&amp;tx_dam_selectionCategory</treeViewClass>
+                                                 <treeViewBrowseable type="integer">0</treeViewBrowseable>         
+                                                 <type>select</type>
+                                                 <foreign_table>tx_dam_cat</foreign_table>
+                                                 <foreign_table_where>ORDER BY tx_dam_cat.uid</foreign_table_where>
+                                                 <size>5</size>
+                                                 <autoSizeMax type="integer">15</autoSizeMax>
+                                                 <minitems>0</minitems>
+                                                 <maxitems>99</maxitems>
+                 </config>
+                </TCEforms>
+               </category>
+		<directory>
+				<TCEforms>
+                                <exclude>1</exclude>
+				<label>Verzeichnis</label>
+				<config>
+					<type>input</type>
+                                        <size>40</size>
+					<checkbox>1</checkbox>
+                                        <eval>trim</eval>
+                                        <wizards type="array">
+                                        <link type="array">
+                                                <type>popup</type>
+                                                <overline>Link</overline>
+                                                <icon>link_popup.gif</icon>
+                                                <script>browse_links.php?mode=wizard</script>
+                                                <params>
+                                                        <blindLinkOptions>page,file,url,mail,spec</blindLinkOptions>
+                                                </params>
+
+                                                <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                                        </link>
+                                        </wizards>
+				</config>
+				</TCEforms>
+		</directory>
+                
+		<!--<useDAM>
+			<TCEforms>
+				<label>Datei-Metadaten(DAM) nutzen</label>
+				<config>
+					<type>check</type>
+				</config>
+			</TCEforms>
+                </useDAM>-->
+		
+		</el>
+	</ROOT>
+	</sDEF>
+	
+</sheets>
+</T3DataStructure>

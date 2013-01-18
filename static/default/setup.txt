@@ -1,0 +1,19 @@
+plugin.tx_comvosfilelist_pi1 {
+            entriesPerPage = 30
+
+            #fetch DAM-information from files
+            useDAM = false
+
+            directory = 
+            template = default
+
+	templateFolders{
+           ## Must contain list.html.twig and single.html.twig
+           ## MyUniqueTemplateName must be defined in flexform / pageTS @see pageTS-example.txt for information
+           # MyUniqueTemplateName = fileadmin/PathToMyTemplate/
+
+           ## change default template
+           #default = fileadmin/PathToMyDefaultTemplate/
+        }
+	
+}

@@ -1,0 +1,9 @@
+TCEFORM.tt_content.pi_flexform.comvosfilelist_pi1.sDEF.template {
+
+  # Add templates to flexform dropdown
+  addItems {
+    
+    MyUniqueTemplateName = My templates descriptive title
+  }
+
+}

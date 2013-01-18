@@ -1,0 +1,8 @@
+# cat=basic; type=boolean; label=I have to set the Apache-Configuration: RewriteRule ^/comvosfilelist/(.*)/(.*)/(.*) /index.php?id=$1&tx_comvosfilelist_pi1[action]=stream&tx_comvosfilelist_pi1[file]=$2&cHash=$3 [L]
+YesIKnow =
+# cat=basic; type=string; label=Secret Key for file name encryption
+enryptionKey = 
+# cat=basic; type=string; label=Protected folders to be checked by reports module
+observedProtectedFolders = typo3temp/comvosfilelist
+# cat=basic; type=string; label=Host used to test fileprotection
+filehostname = localhost

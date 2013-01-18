@@ -1,0 +1,25 @@
+{# empty Twig template #}
+
+<h1>{{ file.filename }} </h1>
+{% if file.extension in ['pdf','jpg','gif'] %}
+{% set thumb = previewImage(file.realpath,{"width": 70,"height": 100,'folder':'comvosfilelist' }) %}
+
+    {% if thumb %}
+    <img src="{{ thumb }}" alt="{{ file.filename }}" />
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+<p>{{ file.meta.description }}</p>
+
+<a href="{{ file|t3webpath|t3securefile }}">
+     
+    {{ file.filename }} (
+    {% if file.size > 1024 %}            
+        {{ (file.size // 1024)|number_format(0,',','.') }} KB 
+    {% else %}
+        {{ file.size|number_format(0,',','.') }} B 
+    {% endif %}
+    )   
+</a>
