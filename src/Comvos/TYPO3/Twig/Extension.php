@@ -101,9 +101,14 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
     )
     ) {
         $defaults = array(
-            'width' => 50,
-            'height' => 50,
-            'folder' => ''
+            'maxW' => '',
+            'maxH' => '',
+            'height' => '',
+            'width' => '',
+            'folder' => '',
+            'params' => '',
+            'mustCreate' => 0
+            
         );
         $options = array_merge($defaults, $options);
         $imageProc = t3lib_div::makeInstance('t3lib_stdGraphic');
@@ -118,7 +123,15 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
             $imageProc->tempPath .= $options['folder'] . '/';
         }
 
-        $ret = $imageProc->imageMagickConvert($filename, 'jpg', $options['width'], $options['height']);
+        $ret = $imageProc->imageMagickConvert($filename, 
+                'jpg',
+                $options['width'],
+                $options['height'],
+                $options['params'],
+                $options['frame'],
+                $options,
+                $options['mustCreate']
+                );
         return str_replace(PATH_site, '/', $ret[3]);
     }
 
