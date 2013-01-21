@@ -21,7 +21,7 @@
                                 {% set bigPreview = previewImage(file.realpath,{ 'folder' : 'comvosfilelist/' ~ pageid,'height': '','width': 400 }) %}    
                                     {% if thumb %}
                                     <span class="tx-mmdamfilelist-pi1-image tx-mmdamfilelist-pi1-image-0">
-                                    <a href="{{ bigPreview|t3securefile }}" target="blank">
+                                    <a href="{{ bigPreview|t3securefile }}" target="_blank">
                                         <img src="{{ thumb|t3securefile }}" alt="{{ file.meta.title }}" title="{{ file.meta.title }}">
                                         </a>
                                     <br>
@@ -60,9 +60,11 @@
 
                         <a class="downloadlink" href="{{ downloadLink|t3securefile }}">Download</a>
 
-                        <div class="description">
+                        {%- if conf.useDAM -%}
+                        <div class="description">                            
                             {{ file.meta.description }}
                         </div>
+                        {% endif %}
 
                     </div>
                     </td>

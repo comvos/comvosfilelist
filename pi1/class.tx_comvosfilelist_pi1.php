@@ -311,7 +311,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
 
 
         //init twig
-        $templateFolder = t3lib_extMgm::extPath('comvosfilelist') . 'templates';
+        $templateFolder = t3lib_extMgm::extPath('comvosfilelist') . 'templates/secure';
         if (isset($this->conf['templateFolders.'][$this->conf['template']])) {
             $temporaryTemplateFolder = t3lib_div::getFileAbsFileName($this->conf['templateFolders.'][$this->conf['template']]);
             if (file_exists($temporaryTemplateFolder)) {
