@@ -8,27 +8,27 @@
 	<sDEF>
 	<ROOT>
 		<TCEforms>
-			<sheetTitle>Dateilisteneinstellungen</sheetTitle>
+			<sheetTitle>LLL:EXT:comvosfilelist/pi1/locallang.xml:flextitle</sheetTitle>
 		</TCEforms>
 		<type>array</type>
 		<el>
                     <useDAM>
 			<TCEforms>
                             <exclude>1</exclude>
-				<label>DAM nutzen?</label>
+				<label>LLL:EXT:comvosfilelist/pi1/locallang.xml:useDAM</label>
 				<config>
 					<type>select</type>
 					<items type="array">
 					<numIndex index="0" type="array">
-						<numIndex index="0">Standard</numIndex>
+						<numIndex index="0">LLL:EXT:comvosfilelist/pi1/locallang.xml:default</numIndex>
 						<numIndex index="1"></numIndex>
 					</numIndex>
 					<numIndex index="1" type="array">
-						<numIndex index="0">Ja</numIndex>
+						<numIndex index="0">LLL:EXT:comvosfilelist/pi1/locallang.xml:yes</numIndex>
 						<numIndex index="1">true</numIndex>
 					</numIndex>
 					<numIndex index="2" type="array">
-						<numIndex index="0">Nein</numIndex>
+						<numIndex index="0">LLL:EXT:comvosfilelist/pi1/locallang.xml:no</numIndex>
 						<numIndex index="1">false</numIndex>
 					</numIndex>
 					</items>									
@@ -38,12 +38,12 @@
 		</useDAM>
                 <template>
 			<TCEforms>
-				<label>Vorlage</label>
+				<label>LLL:EXT:comvosfilelist/pi1/locallang.xml:template</label>
 				<config>
 					<type>select</type>
 					<items type="array">
 					<numIndex index="0" type="array">
-						<numIndex index="0">Standard</numIndex>
+						<numIndex index="0">LLL:EXT:comvosfilelist/pi1/locallang.xml:default</numIndex>
 						<numIndex index="1">default</numIndex>
 					</numIndex>					
 					</items>					
@@ -54,7 +54,7 @@
 		</template>
 		<entriesPerPage>
 			<TCEforms>
-			<label>Einträge pro Seite</label>
+			<label>LLL:EXT:comvosfilelist/pi1/locallang.xml:entriesperpage</label>
 			<config>
 				<type>input</type>
 				<eval>num</eval>
@@ -66,7 +66,7 @@
                 <category>
                 <TCEforms>
                  <exclude>1</exclude>
-                 <label>Kategorie(en)</label>
+                 <label>LLL:EXT:comvosfilelist/pi1/locallang.xml:categories</label>
                  <config>
                                                  <form_type>user</form_type>
                                                  <userFunc>EXT:dam/lib/class.tx_dam_tcefunc.php:&amp;tx_dam_tceFunc->getSingleField_selectTree</userFunc>
@@ -85,7 +85,7 @@
 		<directory>
 				<TCEforms>
                                 <exclude>1</exclude>
-				<label>Verzeichnis</label>
+				<label>LLL:EXT:comvosfilelist/pi1/locallang.xml:directory</label>
 				<config>
 					<type>input</type>
                                         <size>40</size>

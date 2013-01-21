@@ -6,7 +6,26 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="flextitle">Filelist-Configuration</label>
 			<label index="noentries">There are no files to be listed.</label>
+			<label index="useDAM">Use DAM?</label>
+			<label index="default">Default</label>
+			<label index="yes">Yes</label>
+			<label index="no">No</label>
+			<label index="template">Template</label>
+                        <label index="categories">Categorie(s)</label>
+                        <label index="directory">Directory</label>
+		</languageKey>
+                <languageKey index="de" type="array">
+			<label index="flextitle">Dateilisten-Einstellungen</label>
+			<label index="noentries">Es sind keine Dateien in der Liste.</label>
+			<label index="useDAM">DAM verwenden?</label>
+			<label index="default">Standard</label>
+			<label index="yes">Ja</label>
+			<label index="no">Nein</label>
+			<label index="template">Vorlage</label>
+                        <label index="categories">Kategorie(n)</label>
+                        <label index="directory">Verzeichnis</label>
 		</languageKey>
 	</data>
 </T3locallang>
