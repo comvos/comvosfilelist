@@ -53,7 +53,7 @@ class Comvos_TYPO3_Filelist_Cachehandler {
         $fs->remove($finder->files());
         
         //specific page remove only these thumbs
-        if(is_int($confArray['cacheCmd'])){
+        if(is_int($confArray['cacheCmd']) && file_exists($tmpfolder.'/'.$confArray['cacheCmd'])){
             $finder = new Finder();
         
             $finder->in($tmpfolder.'/'.$confArray['cacheCmd'])->name('*.jpg');
