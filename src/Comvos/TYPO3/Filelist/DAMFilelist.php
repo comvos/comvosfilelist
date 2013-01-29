@@ -128,8 +128,18 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
         if ($this->isInCategoryMode()) {
             $commonQueryBuilder
                     ->join('damfile', 'tx_dam_mm_cat', 'mmcat', 'mmcat.uid_local=damfile.uid')
-                    ->andWhere('mmcat.uid_foreign = (:category_ids)')
-                    ->setParameter('category_ids', explode(',', $this->getCategory()), \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+                    ;
+            
+            //@todo solve with "IN" 
+            $cats = explode(',', $this->getCategory());
+            $crits = array();
+            foreach($cats as $nr => $category){
+                  $commonQueryBuilder
+                    ->setParameter('category_'.$nr, $category );
+                  $crits[]='mmcat.uid_foreign = :category_'.$nr;
+            }
+            $commonQueryBuilder
+                    ->andWhere(implode(' OR ',$crits));
         }
         return $commonQueryBuilder;
     }
