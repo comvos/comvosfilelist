@@ -253,7 +253,8 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
             'entriesPerPage' => 30,
             'useDAM' => true,
             'directory' => '',
-            'template' => 'default'
+            'template' => 'default',
+            'cacheTwig' => false
         );
 
         $this->conf = array_merge($configurationDefaults, $typoScriptConf);
@@ -357,7 +358,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
         }
         $loader = new Twig_Loader_Filesystem($templateFolder);
         $this->twig = new Twig_Environment($loader, array(
-                    'cache' => $cachefolder,
+                    'cache' => $this->conf['cacheTwig']?$cachefolder:false,
                 ));
         $this->twig->addGlobal('conf', $this->conf);
         

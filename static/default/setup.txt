@@ -6,7 +6,7 @@ plugin.tx_comvosfilelist_pi1 {
 
             directory = 
             template = default
-
+            cacheTwig = 0
 	templateFolders{
            ## Must contain list.html.twig and single.html.twig
            ## MyUniqueTemplateName must be defined in flexform / pageTS @see pageTS-example.txt for information
