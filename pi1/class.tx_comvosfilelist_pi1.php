@@ -259,8 +259,35 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
         $this->conf = array_merge($configurationDefaults, $typoScriptConf);
         $this->pi_initPIflexform();
         $ffConf = self::getFFSheetvalues($this->cObj->data['pi_flexform'], 'sDEF');
+        
+        
+        // plugin is mm_dam_filelist replacement, try to merge config as far as possible
+        $mmDamFilelistSheets = array('sMAIN','sCATEGORIES','sLISTVIEW','sTREEVIEW','sSINGLEVIEW','sSINGLEVIEW','sADDRESS','sVIDEO');
+        
+        foreach($mmDamFilelistSheets as $sheetTitle){
+            $ffConfMMDamFilelist[$sheetTitle] = self::getFFSheetvalues($this->cObj->data['pi_flexform'], $sheetTitle);
+        }
+        $this->conf['isDamFilelistCE']=false;
+        
+        if(count($ffConfMMDamFilelist['sCATEGORIES'])){
+            
+            $this->conf['isDamFilelistCE'] = true;
+            
+            $this->conf['mm_dam_filelist'] = $ffConfMMDamFilelist;
+            
+            $ffConf['category'] = $ffConfMMDamFilelist['sCATEGORIES']['category'];
+            $ffConf['entriesPerPage'] = $ffConfMMDamFilelist['sLISTVIEW']['results_at_a_time'];
+            $ffConf['template'] = 'default';
+            if($ffConfMMDamFilelist['sLISTVIEW']['templatefile']){
+                //generate templateIdentifier to allow replacement of old templates
+                //all chars, that are not letters or numbers are converted to "_" "mytemplate.html" => "mytemplate_html"
+                //check "uploads/tx_mmdamfilelist" for old templates!
+                $templateIdentifier =  preg_replace('/[^a-zA-Z0-9]/','_',$ffConfMMDamFilelist['sLISTVIEW']['templatefile']);
+                $ffConf['template'] = $templateIdentifier;
+            }
+        }
 
-
+        //overwrite TS-conf with FF values
         if ($ffConf['entriesPerPage']) {
             $this->conf['entriesPerPage'] = $ffConf['entriesPerPage'];
         }
@@ -317,8 +344,11 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
             if (file_exists($temporaryTemplateFolder)) {
                 $templateFolder = $temporaryTemplateFolder;
             }
+        }else{
+            if($this->conf['template']){
+                throw new Exception('Template not configured in TS "templateFolders": "'.$this->conf['template'].'"');
+            }
         }
-
         
         //init view
         $cachefolder=PATH_site.'typo3temp/comvosfilelist/twigcache';
@@ -330,7 +360,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
                     'cache' => $cachefolder,
                 ));
         $this->twig->addGlobal('conf', $this->conf);
-
+        
         $this->twig->addExtension(new Comvos_TYPO3_Twig_Extension($this));
 
         $this->twig->addExtension(new Comvos_TYPO3_Filelist_Twig_Extension($this));
