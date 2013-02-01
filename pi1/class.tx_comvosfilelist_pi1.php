@@ -361,6 +361,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
                     'cache' => $this->conf['cacheTwig']?$cachefolder:false,
                 ));
         $this->twig->addGlobal('conf', $this->conf);
+        $this->twig->addGlobal('tsfe', $GLOBALS['TSFE']);
         
         $this->twig->addExtension(new Comvos_TYPO3_Twig_Extension($this));
 

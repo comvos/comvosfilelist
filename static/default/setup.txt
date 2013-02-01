@@ -19,3 +19,7 @@ plugin.tx_comvosfilelist_pi1 {
         }
 	
 }
+
+
+#to replace existing mm_dam_filelist plugins with comvosfilelistplugin add this line 
+#tt_content.list.20.mm_dam_filelist_pi1 =< plugin.tx_comvosfilelist_pi1

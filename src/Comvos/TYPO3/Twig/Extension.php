@@ -62,6 +62,8 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
             'previewImage' => new Twig_Function_Method( $this , 'previewImage' ),
             'includeStylesheet' => new Twig_Function_Method( $this , 'includeStylesheet' ),
             'includeJavascript' => new Twig_Function_Method( $this , 'includeJavascript' ),
+            'overwritePageTitle' => new Twig_Function_Method( $this , 'overwritePageTitle' ),
+            'overwritePageDescription' => new Twig_Function_Method( $this , 'overwritePageDescription' ),
         );
         
     }
@@ -141,6 +143,14 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
 
     public function includeJavascript($filename) {
         $GLOBALS['TSFE']->additionalHeaderData['twigconnector'] .= '<script type="text/javascript" src="' . $filename . '"></script>';
+    }
+    
+    public function overwritePageTitle($title) {
+        $GLOBALS['TSFE']->page['title'] = $title;
+    }
+    
+    public function overwritePageDescription($description) {
+        $GLOBALS['TSFE']->page['description'] = $description;
     }
 
 }

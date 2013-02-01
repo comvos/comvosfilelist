@@ -6,3 +6,5 @@ enryptionKey =
 observedProtectedFolders = typo3temp/comvosfilelist
 # cat=basic; type=string; label=Host used to test fileprotection
 filehostname = localhost
+# cat=basic; type=boolean; label=Add fake mm_dam_filelist plugin
+add_mm_dam_filelist_plugin = 0

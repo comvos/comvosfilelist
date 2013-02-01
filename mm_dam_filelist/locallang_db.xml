@@ -9,7 +9,7 @@
     </meta>
     <data type="array">
         <languageKey index="default" type="array">
-            <label index="tt_content.list_type_pi1">MM DAM FE FileList</label>
+            <label index="tt_content.list_type_pi1">OLD MM DAM FE FileList</label>
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category">DAM Category:</label>
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category_remark">Remark:</label>            
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category_remark_text">Categories will be ignored in the "Tree-View"</label>            
@@ -72,7 +72,7 @@
             <label index="tt_content.pi_flexform.label.address_pid">Sysfolder with address data:</label>
         </languageKey>
         <languageKey index="de" type="array">
-            <label index="tt_content.list_type_pi1">MM DAM FE FileListe</label>
+            <label index="tt_content.list_type_pi1">Veraltete MM DAM FE FileListe</label>
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category">DAM Kategorie:</label>
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category_remark">Anmerkung:</label>            
             <label index="tt_content.tx_mmdamfilelist_mm_dam_category_remark_text">Kategorieen werden in der "Tree-Ansicht" ignoriert</label>            
