@@ -20,7 +20,10 @@ class Connection extends \Doctrine\DBAL\Connection {
                 'dbname' => TYPO3_db,
                 'user' => TYPO3_db_username,
                 'password' => TYPO3_db_password,
-                'host' => 'localhost'));
+                'host' => 'localhost',
+                'driverOptions' => array(
+                            1002 =>'SET NAMES utf8'
+                    )));
         }
 
         parent::__construct($params, $driver, $config, $eventManager);
