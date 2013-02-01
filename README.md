@@ -20,7 +20,7 @@ be a good, clean and secure start for a feature-rich filelist.
 - easy templating using twig (have a look at the [template documentation](doc/templating.md))
 - usable with or without DAM
 - observe directories with reports module to check security regularly
-- basic compatibility with mm\_dam\_filelist (have a look at [mm\_dam\_filelist replacement documentation](docs/mm_dam_filelist-compatmode.md))
+- basic compatibility with mm\_dam\_filelist (have a look at [mm\_dam\_filelist replacement documentation](doc/mm_dam_filelist-compatmode.md))
 
 ## Future and development ##
 
@@ -92,7 +92,7 @@ After installing the extension through the extension manager, you have to change
 
 From version 1.0.2 on you can activate a fake **mm\_dam\_filelist** plugin 
 and let comvosfilelist render old **mm\_dam\_filelist** plugin content elements.
-Have a look at the [mm\_dam\_filelist replacement documentation](docs/mm_dam_filelist-compatmode.md)
+Have a look at the [mm\_dam\_filelist replacement documentation](doc/mm_dam_filelist-compatmode.md)
  to learn how this works.
 
 In the reports section of your TYPO3 installation there should now be a section providing information about your protected folders and the "fileadmin" folder, which should be reachable any time. If the "fileadmin" folder is reported as unreachable you might have entered a wrong hostname in the extension configuration.
