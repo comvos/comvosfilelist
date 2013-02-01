@@ -20,7 +20,7 @@ be a good, clean and secure start for a feature-rich filelist.
 - easy templating using twig (have a look at the [template documentation](doc/templating.md))
 - usable with or without DAM
 - observe directories with reports module to check security regularly
-
+- basic compatibility with mm\_dam\_filelist (have a look at [mm\_dam\_filelist replacement documentation](docs/mm_dam_filelist-compatmode.md))
 
 ## Future and development ##
 
@@ -90,7 +90,7 @@ After installing the extension through the extension manager, you have to change
 2. A comma-seperated list containing all folders that have to be protected (used by the reports-module to check for correct directory protection)
 3. The hostname that should be used by the status report to check for correct directory protection. (remember to change this when migrating from development enviroments)
 
-From Version 1.0.2 on you can activate a fake **mm\_dam\_filelist** plugin 
+From version 1.0.2 on you can activate a fake **mm\_dam\_filelist** plugin 
 and let comvosfilelist render old **mm\_dam\_filelist** plugin content elements.
 Have a look at the [mm\_dam\_filelist replacement documentation](docs/mm_dam_filelist-compatmode.md)
  to learn how this works.
