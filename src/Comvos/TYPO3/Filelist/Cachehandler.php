@@ -39,26 +39,33 @@ class Comvos_TYPO3_Filelist_Cachehandler {
      * @param	object		@see clearCache 
      * @return	void
      */
-    public function handleCache($confArray,$objArray) {
-        
-        $tmpfolder=PATH_site . 'typo3temp/comvosfilelist';
+    public function handleCache($confArray, $objArray) {
+
+        $tmpfolder = PATH_site . 'typo3temp/comvosfilelist';
         $finder = new Finder();
-        
+
         $finder->in($tmpfolder)->name('*.php');
+        $pageid = null;
+        if (is_int($confArray['cacheCmd'])) {
+            $pageid = $confArray['cacheCmd'];
+        }
+        if (isset($confArray['uid_page']) && is_int($confArray['uid_page'])) {
+            $pageid=$confArray['uid_page'];
+        }
         //no specific page => remove all images 
-        if(!is_int($confArray['cacheCmd'])){
+        if (!is_int($confArray['cacheCmd']) && (!isset($confArray['uid_page']) || empty($confArray['uid_page']))) {
             $finder->name('*.jpg');
         }
         $fs = new Filesystem();
         $fs->remove($finder->files());
         
         //specific page remove only these thumbs
-        if(is_int($confArray['cacheCmd']) && file_exists($tmpfolder.'/'.$confArray['cacheCmd'])){
+        if ($pageid && file_exists($tmpfolder . '/' . $pageid)) {
             $finder = new Finder();
-        
-            $finder->in($tmpfolder.'/'.$confArray['cacheCmd'])->name('*.jpg');
+
+            $finder->in($tmpfolder . '/' . $pageid)->name('*.jpg');
             $fs->remove($finder->files());
         }
-        
     }
+
 }
