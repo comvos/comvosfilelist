@@ -5,7 +5,7 @@ unhappy with the existing solutions concerning security,
 feature-richness and quality of code.
 
 
-For example, mm_dam_filelist was/is pretty powerful but lacks a clear, transparent
+For example, mm\_dam\_filelist was/is pretty powerful but lacks a clear, transparent
 security policy and the codebase istn't very pretty. There are many others like
 fefilebrowser with good intentions but big disadvantages. Comvosfilelist shall
 be an alternative. Right now it does not have a lot of features, but it should
@@ -17,7 +17,7 @@ be a good, clean and secure start for a feature-rich filelist.
 - security layer for file access
 - file access is determined by page access rights (transparent and easy)
 - secure thumbnails
-- easy templating using twig
+- easy templating using twig (have a look at the [template documentation](doc/templating.md))
 - usable with or without DAM
 - observe directories with reports module to check security regularly
 
@@ -90,6 +90,10 @@ After installing the extension through the extension manager, you have to change
 2. A comma-seperated list containing all folders that have to be protected (used by the reports-module to check for correct directory protection)
 3. The hostname that should be used by the status report to check for correct directory protection. (remember to change this when migrating from development enviroments)
 
+From Version 1.0.2 on you can activate a fake **mm\_dam\_filelist** plugin 
+and let comvosfilelist render old **mm\_dam\_filelist** plugin content elements.
+Have a look at the [mm\_dam\_filelist replacement documentation](docs/mm_dam_filelist-compatmode.md)
+ to learn how this works.
 
 In the reports section of your TYPO3 installation there should now be a section providing information about your protected folders and the "fileadmin" folder, which should be reachable any time. If the "fileadmin" folder is reported as unreachable you might have entered a wrong hostname in the extension configuration.
 
@@ -128,6 +132,7 @@ To make them selectable in the flexform you have to add some lines to the **Page
 
 }`
 
+For information about creating you own templates have a look at the [template documentation](doc/templating.md).
 
 ### Entries per page ###
 

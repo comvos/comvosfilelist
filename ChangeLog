@@ -1,3 +1,17 @@
-2012-01-18  comvos online medien GmbH, Nabil Saleh  <saleh@comvos.de>
+v1.0.2
+    - impproved documentation
+    - enhanced mm_dam_filelist compatmode
+        - activate fake plugin in extensionmanager
+        - Show pluginname prefixed with "Old"
+        - add a small TS example
 
-	* Initial release
+    - improved cachehandler
+    - added fake mm_dam_filelist plugin to preserve flexform
+    - ensure DB-Connection charset UTF8
+    - made twig caching optional
+    - basic compatibility for mm_dam_filelist added
+    - fixed bug whith querybuilder in DAM category mode
+v1.0.1 
+    - Bugfix release
+v1.0.0 
+    - Initial release
