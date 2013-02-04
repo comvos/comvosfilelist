@@ -27,7 +27,7 @@ mm\_dam\_filelist-flexform settings working:
 mm\_dam\_filelist had some features from which we don't think that they are neccessary in comvosfilelist.
 Furthermore many things can be done in templates as we use twig. However there are some neat features 
 we would like to see in future versions of comvosfilelist. If you have any additions 
-or want to support development by coding or donation please let us know by 
+or want to support development by coding or sponsoring a feature, please let us know by 
 [email](info@comvos.de) or by opening an [issue/pull request on github](https://github.com/comvos/comvosfilelist/issues).
 
 - searching
