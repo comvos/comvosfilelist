@@ -130,10 +130,17 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
             }
         }
 
+        $filenameForStreaming =  $file->getFilename();
+        
+        //when using DAM check for dam download filename
+        if(isset($this->conf['useDAM']) && $file->meta && $file->meta['file_dl_name']){
+                $filenameForStreaming = $file->meta['file_dl_name'];
+        }
+        
         if (strpos($filename, '/typo3temp/comvosfilelist/') === 0) {
             header('Content-type: image/jpeg');
         } else {
-            header("Content-disposition: attachment; filename=" . $file->getFilename());
+            header("Content-disposition: attachment; filename=" . $filenameForStreaming);
             header('Content-type: application/octet-stream'); //Force browser to download
         }
 
