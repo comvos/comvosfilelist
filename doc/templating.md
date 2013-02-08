@@ -71,7 +71,7 @@ nice helpers.
 
 #### includeStylesheet and includeJavascript ####
 
-Including style sheets and javascript in extensions the old TYPO3 issnt nice as
+Including style sheets and javascript in extensions the old TYPO3 way issnt nice as
 you have to do this in what's next to a controller: the pi-class.
 
 Moving this into the template, you can now add your prefered stylesheet easily 
@@ -82,6 +82,8 @@ from within you view.
 `{{ includeStylesheet('/typo3conf/ext/comvosfilelist/templates/css/comvosfilelist-default.css') }}`
 
 `{{ includeJavascript('/fileadmin/templates/comvosfilelist/default/js/comvosfilelist.js') }}`
+
+**Notice:** from version 1.0.3 on you can use paths relative to your template like 'css/comvosfilelist-default.css'
 
 
 #### overwritePageTitle and overwritePageDescription ####
