@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,27 +21,25 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ * ************************************************************* */
 
 /**
  * Description of FilesystemAcessValidator
  *
  * @author nsaleh
  */
-class Comvos_TYPO3_Filelist_AccessValidator_FilesystemAccessValidator implements Comvos_TYPO3_Filelist_AccessValidator{
+class Comvos_TYPO3_Filelist_AccessValidator_FilesystemAccessValidator implements Comvos_TYPO3_Filelist_AccessValidator {
 
     /**
      * list of allowed folders.
      * @var array 
      */
-    protected $allowedFolders=array();
-    
-    
-    public function __construct($allowedFolders=array()) {
+    protected $allowedFolders = array();
+
+    public function __construct($allowedFolders = array()) {
         $this->allowedFolders = $allowedFolders;
     }
-    
+
     protected static function isFirstPartOfStr($str, $partStr) {
         return $partStr != '' && strpos((string) $str, (string) $partStr, 0) === 0;
     }
@@ -57,26 +56,27 @@ class Comvos_TYPO3_Filelist_AccessValidator_FilesystemAccessValidator implements
         if (substr($filename, 0, 1) == '/') {
             $filename = substr($filename, 1);
         }
-        
-        if((t3lib_div::verifyFilenameAgainstDenyPattern($file->getRealPath())
+
+        if ((t3lib_div::verifyFilenameAgainstDenyPattern($file->getRealPath())
                 && t3lib_div::isAllowedAbsPath($file->getRealPath())
                 && $file->isFile()
                 && $file->isReadable()
                 && $this->isWithinAllowedFolders($filename)
-                )){
-           return true;
+        )) {
+            return true;
         }
         return false;
     }
+
     /**
      * Check wether file is in one of the allowed folders.
      * 
      * @param string $filename Pathname relative to document root
      * @return boolean
      */
-    public function isWithinAllowedFolders($filename){
-        foreach($this->allowedFolders as $allowedFolder){
-            if( self::isFirstPartOfStr($filename, $allowedFolder)){
+    public function isWithinAllowedFolders($filename) {
+        foreach ($this->allowedFolders as $allowedFolder) {
+            if (self::isFirstPartOfStr($filename, $allowedFolder)) {
                 return true;
             }
         }

@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,9 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
-
+ * ************************************************************* */
 
 /**
  * Description of FilesystemAcessValidator
@@ -36,11 +35,11 @@ class Comvos_TYPO3_Filelist_AccessValidator_DAMAccessValidator extends Comvos_TY
      * @var \Doctrine\DBAL\Query\QueryBuilder
      */
     protected $commonQueryBuilder = null;
-    
+
     public function setCommonQueryBuilder(\Doctrine\DBAL\Query\QueryBuilder $commonQueryBuilder) {
         $this->commonQueryBuilder = $commonQueryBuilder;
     }
-    
+
     /**
      * 
      * check wether file is within allowed paths
@@ -54,7 +53,7 @@ class Comvos_TYPO3_Filelist_AccessValidator_DAMAccessValidator extends Comvos_TY
             $filename = substr($filename, 1);
         }
 
-        if(!self::isFirstPartOfStr($filename, 'typo3temp/comvosfilelist')){
+        if (!self::isFirstPartOfStr($filename, 'typo3temp/comvosfilelist')) {
             $damfileIsInListAndIndexed = $this->commonQueryBuilder
                     ->andWhere("file_path like :validatefile_path")
                     ->andWhere("file_name like :file_name")
@@ -62,7 +61,7 @@ class Comvos_TYPO3_Filelist_AccessValidator_DAMAccessValidator extends Comvos_TY
                     ->setParameter('file_name', $file->getFilename())
                     ->execute()
                     ->rowCount();
-            
+
             if (!$damfileIsInListAndIndexed) {
                 return false;
             }

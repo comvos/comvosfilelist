@@ -36,14 +36,14 @@ class tx_comvosfilelist_cachehandlerproxy {
      * @param	object		@see clearCache 
      * @return	void
      */
-    public function handleCache($confArray,$objArray) {
-        
+    public function handleCache($confArray, $objArray) {
+
         //autoloader from composer
         $autoloader = require t3lib_extMgm::extPath('comvosfilelist') . 'vendor/autoload.php';
         $autoloader->add('Comvos_', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
         $autoloader->add('Comvos', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
         $cachehandler = new Comvos_TYPO3_Filelist_Cachehandler();
-        $cachehandler->handleCache($confArray,$objArray);
-                
+        $cachehandler->handleCache($confArray, $objArray);
     }
+
 }

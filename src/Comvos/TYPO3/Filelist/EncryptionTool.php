@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,9 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
-
+ * ************************************************************* */
 
 /**
  * 
@@ -31,11 +30,12 @@
  */
 class Comvos_TYPO3_Filelist_EncryptionTool {
 
-    private $secretKey=null;
-    
+    private $secretKey = null;
+
     public function __construct($secretKey) {
         $this->secretKey = $secretKey;
     }
+
     private function makeValidateable($value) {
         $container = new stdClass();
         $container->value = $value;

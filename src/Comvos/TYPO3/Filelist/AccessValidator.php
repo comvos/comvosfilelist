@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,16 +21,14 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ * ************************************************************* */
 
 /**
  * Description of FilesystemAcessValidator
  *
  * @author nsaleh
  */
-interface Comvos_TYPO3_Filelist_AccessValidator{
-
+interface Comvos_TYPO3_Filelist_AccessValidator {
 
     /**
      * 
@@ -39,7 +38,6 @@ interface Comvos_TYPO3_Filelist_AccessValidator{
      * @return boolean
      */
     public function validateFile(Symfony\Component\Finder\SplFileInfo $file);
-
 }
 
 ?>

@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,7 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 /**
  * 
@@ -33,42 +34,42 @@ abstract class Comvos_TYPO3_Filelist_List {
      * @var int
      */
     protected $count = 0;
-    
+
     /**
      * Files per page
      * @var int
      */
     protected $entriesPerPage = 10;
-    
+
     /**
      * Page to be fetched
      * @var int
      */
-    protected $page=1;
-    
+    protected $page = 1;
     protected $files = array();
-    
     protected $lastpage = null;
+
     /**
      *
      * @var Comvos_TYPO3_Filelist_AccessValidator
      */
-    protected $fileAccessValidator=null;
-    
-    public function __construct( $configuration ) {
-        
+    protected $fileAccessValidator = null;
+
+    public function __construct($configuration) {
+
         $this->setEntriesPerPage($configuration['entriesPerPage']);
-        
+
         if (!empty($configuration['page'])) {
             $this->setPage($configuration['page']);
         }
-        
-        if (!empty($configuration['fileAccessValidator'])){
+
+        if (!empty($configuration['fileAccessValidator'])) {
             $this->setFileAccessValidator($configuration['fileAccessValidator']);
-        }else{
+        } else {
             throw Comvos_TYPO3_Filelist_FilelistException::noAccessValidator();
         }
     }
+
     public function getFileAccessValidator() {
         return $this->fileAccessValidator;
     }
@@ -77,7 +78,6 @@ abstract class Comvos_TYPO3_Filelist_List {
         $this->fileAccessValidator = $fileAccessValidator;
     }
 
-        
     /**
      * Get SplFileInfo Object from filename after validating, the file is within
      * the filelist (allowed to be accessed)
@@ -86,12 +86,12 @@ abstract class Comvos_TYPO3_Filelist_List {
      * @return Symfony\Component\Finder\SplFileInfo
      */
     abstract function getFileForSingleview($filename);
-    
+
     public function getCount() {
         return $this->count;
     }
 
-    public function setCount( $count ) {
+    public function setCount($count) {
         $this->count = $count;
     }
 
@@ -99,7 +99,7 @@ abstract class Comvos_TYPO3_Filelist_List {
         return $this->entriesPerPage;
     }
 
-    public function setEntriesPerPage( $entriesPerPage ) {
+    public function setEntriesPerPage($entriesPerPage) {
         $this->entriesPerPage = $entriesPerPage;
     }
 
@@ -107,7 +107,7 @@ abstract class Comvos_TYPO3_Filelist_List {
         return $this->page;
     }
 
-    public function setPage( $page ) {
+    public function setPage($page) {
         $this->page = $page;
     }
 
@@ -115,9 +115,10 @@ abstract class Comvos_TYPO3_Filelist_List {
         return $this->files;
     }
 
-    public function setFiles( $files ) {
+    public function setFiles($files) {
         $this->files = $files;
     }
+
     public function getLastpage() {
         return $this->lastpage;
     }
@@ -125,9 +126,6 @@ abstract class Comvos_TYPO3_Filelist_List {
     public function setLastpage($lastpage) {
         $this->lastpage = $lastpage;
     }
-
-
-
 
 }
 

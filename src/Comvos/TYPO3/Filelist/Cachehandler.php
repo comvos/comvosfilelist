@@ -50,7 +50,7 @@ class Comvos_TYPO3_Filelist_Cachehandler {
             $pageid = $confArray['cacheCmd'];
         }
         if (isset($confArray['uid_page']) && is_int($confArray['uid_page'])) {
-            $pageid=$confArray['uid_page'];
+            $pageid = $confArray['uid_page'];
         }
         //no specific page => remove all images 
         if (!is_int($confArray['cacheCmd']) && (!isset($confArray['uid_page']) || empty($confArray['uid_page']))) {
@@ -58,7 +58,7 @@ class Comvos_TYPO3_Filelist_Cachehandler {
         }
         $fs = new Filesystem();
         $fs->remove($finder->files());
-        
+
         //specific page remove only these thumbs
         if ($pageid && file_exists($tmpfolder . '/' . $pageid)) {
             $finder = new Finder();

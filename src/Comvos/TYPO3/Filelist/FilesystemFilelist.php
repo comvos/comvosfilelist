@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,10 +21,9 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 use Symfony\Component\Finder\Finder;
-
 
 /**
  * Description of DAMFilelist
@@ -46,7 +46,7 @@ class Comvos_TYPO3_Filelist_FilesystemFilelist extends Comvos_TYPO3_Filelist_Lis
 
         parent::__construct($configuration);
 
-        
+
         if (!empty($configuration['directory'])) {
             $this->setDirectory($configuration['directory']);
         } else {
@@ -59,7 +59,7 @@ class Comvos_TYPO3_Filelist_FilesystemFilelist extends Comvos_TYPO3_Filelist_Lis
     protected function initFileListFromfilesystem() {
 
         $finder = new Finder();
-        
+
         $finder->files()->in(PATH_site . $this->getDirectory());
         $finder->sortByName();
         $files = $finder;

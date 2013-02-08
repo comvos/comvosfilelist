@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,8 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ * ************************************************************* */
 
 /**
  * Description of FilelistException
@@ -45,7 +45,7 @@ class Comvos_TYPO3_Filelist_FilelistException extends \Exception {
     public static function fileAccessForbidden() {
         return new self("You are not allowed to access this file.");
     }
-    
+
     public static function noAccessValidator() {
         return new self("You must provide an accessvalidator.");
     }

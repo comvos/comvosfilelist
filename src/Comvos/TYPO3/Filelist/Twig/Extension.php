@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,8 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ * ************************************************************* */
 
 /**
  * 
@@ -59,15 +59,15 @@ class Comvos_TYPO3_Filelist_Twig_Extension extends Twig_Extension {
         );
     }
 
-    public function t3crypt($string){
+    public function t3crypt($string) {
         return $this->plugin->getEncryptionTool()->encrypt($string);
     }
 
     public function t3securefile($filename) {
         $encryptedFilename = $this->plugin->getEncryptionTool()->encrypt($filename);
-        $link='&tx_comvosfilelist_pi1[action]=stream&tx_comvosfilelist_pi1[file]='.$encryptedFilename;
-        $cHash=t3lib_div::generateCHash($link); 
-        return '/comvosfilelist/' . $GLOBALS['TSFE']->id .'/'. $encryptedFilename.'/'.$cHash;
+        $link = '&tx_comvosfilelist_pi1[action]=stream&tx_comvosfilelist_pi1[file]=' . $encryptedFilename;
+        $cHash = t3lib_div::generateCHash($link);
+        return '/comvosfilelist/' . $GLOBALS['TSFE']->id . '/' . $encryptedFilename . '/' . $cHash;
     }
 
 }

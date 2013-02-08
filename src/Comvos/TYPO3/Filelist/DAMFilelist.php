@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  *  Copyright notice
  *
  *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
@@ -20,9 +21,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
-
+ * ************************************************************* */
 
 /**
  * Description of DAMFilelist
@@ -36,19 +35,19 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
      * @var \Doctrine\DBAL\Connection
      */
     protected $connection = null;
-    
+
     /**
      * Directory containing files to be listed
      * @var string 
      */
     protected $directory = '';
-    
+
     /**
      * Dam category ID
      * @var string
      */
     protected $category = '';
-    
+
     /**
      * Indicates in which mode listing is working 
      * @var int 
@@ -58,23 +57,23 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
     /**
      * List files in directory
      */
+
     const MODE_DIRECTORY = 1;
     /**
      * List files with dam category(@see category)
      */
     const MODE_CATEGORY = 2;
 
-    
     /**
      * 
      * @param type $configuration
      */
-    public function __construct($configuration,\Doctrine\DBAL\Connection $connection) {
+    public function __construct($configuration, \Doctrine\DBAL\Connection $connection) {
 
         parent::__construct($configuration);
-        
+
         $this->connection = $connection;
-        
+
         if (!empty($configuration['directory'])) {
             $this->setMode(self::MODE_DIRECTORY);
             $this->setDirectory($configuration['directory']);
@@ -94,28 +93,29 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
 
     public function getFileForSingleview($filename) {
         $file = new Symfony\Component\Finder\SplFileInfo(PATH_site . $filename, preg_replace('/[^\/]+$/', '', $filename), $filename);
-        
+
         $this->getFileAccessValidator()->setCommonQueryBuilder($this->getCommonQuerybuilder());
-        
-        if(!$this->getFileAccessValidator()->validateFile($file)){
-           throw Comvos_TYPO3_Filelist_FilelistException::fileAccessForbidden();
+
+        if (!$this->getFileAccessValidator()->validateFile($file)) {
+            throw Comvos_TYPO3_Filelist_FilelistException::fileAccessForbidden();
         }
-        
+
         $file->meta = $this->getCommonQuerybuilder()
-                ->andWhere("file_path like :singlefile_path")
-                ->andWhere("file_name like :file_name")
-                ->setParameter('singlefile_path', $file->getRelativePath())
-                ->setParameter('file_name', $file->getFilename())
-                ->execute()->fetch();
-        
+                        ->andWhere("file_path like :singlefile_path")
+                        ->andWhere("file_name like :file_name")
+                        ->setParameter('singlefile_path', $file->getRelativePath())
+                        ->setParameter('file_name', $file->getFilename())
+                        ->execute()->fetch();
+
         return $file;
     }
+
     /**
      * 
      * @return \Doctrine\DBAL\Query\QueryBuilder preconfigured querybuilder for fetching files
      */
-    protected function getCommonQuerybuilder(){
-        
+    protected function getCommonQuerybuilder() {
+
         $commonQueryBuilder = $this->connection->createQueryBuilder()
                 ->select('*')
                 ->from('tx_dam', 'damfile')
@@ -128,39 +128,38 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
         if ($this->isInCategoryMode()) {
             $commonQueryBuilder
                     ->join('damfile', 'tx_dam_mm_cat', 'mmcat', 'mmcat.uid_local=damfile.uid')
-                    ;
-            
+            ;
+
             //@todo solve with "IN" 
             $cats = explode(',', $this->getCategory());
             $crits = array();
-            foreach($cats as $nr => $category){
-                  $commonQueryBuilder
-                    ->setParameter('category_'.$nr, $category );
-                  $crits[]='mmcat.uid_foreign = :category_'.$nr;
+            foreach ($cats as $nr => $category) {
+                $commonQueryBuilder
+                        ->setParameter('category_' . $nr, $category);
+                $crits[] = 'mmcat.uid_foreign = :category_' . $nr;
             }
             $commonQueryBuilder
-                    ->andWhere(implode(' OR ',$crits));
+                    ->andWhere(implode(' OR ', $crits));
         }
         return $commonQueryBuilder;
     }
 
-
     protected function initFileListFromDam() {
-        
 
-        
+
+
         $damcount = $this->getCommonQuerybuilder();
 
-        $this->setCount( $damcount
-                ->execute()
-                ->rowCount());
+        $this->setCount($damcount
+                        ->execute()
+                        ->rowCount());
 
         $this->setLastpage(max(1, ceil($this->getCount() / $this->getEntriesPerPage())));
         if ($this->getPage() >= $this->getLastpage()) {
-            $this->setPage( $this->getLastpage() );
+            $this->setPage($this->getLastpage());
         }
-        
-        $damfilesQB =  $this->getCommonQuerybuilder();
+
+        $damfilesQB = $this->getCommonQuerybuilder();
         $damfiles = $damfilesQB
                 ->setFirstResult(($this->getPage() - 1) * $this->getEntriesPerPage())
                 ->setMaxResults($this->getEntriesPerPage())
@@ -206,7 +205,7 @@ class Comvos_TYPO3_Filelist_DAMFilelist extends Comvos_TYPO3_Filelist_List {
     public function isInCategoryMode() {
         return $this->mode === self::MODE_CATEGORY;
     }
-    
+
 }
 
 ?>

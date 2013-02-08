@@ -145,22 +145,21 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
         }
         if (isset($template)) {
             foreach ($template->getEnvironment()->getLoader()->getPaths() as $path) {
-                if(file_exists($path.$filename)){
-                    return str_replace(PATH_site,'/',$path.$filename);
+                if (file_exists($path . $filename)) {
+                    return str_replace(PATH_site, '/', $path . $filename);
                 }
             }
         }
-        throw new Exception('Asset not found: "'.$filename.'"');
-
+        throw new Exception('Asset not found: "' . $filename . '"');
     }
 
-    public function includeStylesheet($filename, $media = 'screen') {        
-        $filename=$this->getRelativeAssetPath($filename);
+    public function includeStylesheet($filename, $media = 'screen') {
+        $filename = $this->getRelativeAssetPath($filename);
         $GLOBALS['TSFE']->additionalHeaderData['twigconnector'] .= '<link rel="stylesheet"  media="' . $media . '"  type="text/css" href="' . $filename . '" />';
     }
 
     public function includeJavascript($filename) {
-        $filename=$this->getRelativeAssetPath($filename);
+        $filename = $this->getRelativeAssetPath($filename);
         $GLOBALS['TSFE']->additionalHeaderData['twigconnector'] .= '<script type="text/javascript" src="' . $filename . '"></script>';
     }
 
