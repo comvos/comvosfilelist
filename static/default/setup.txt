@@ -1,4 +1,7 @@
+plugin.tx_comvosfilelist_pi1 = USER
 plugin.tx_comvosfilelist_pi1 {
+            includeLibs = typo3conf/ext/comvosfilelist/pi1/class.tx_comvosfilelist_pi1.php
+            userFunc = tx_comvosfilelist_pi1->main
             entriesPerPage = 30
 
             #fetch DAM-information from files
@@ -12,14 +15,14 @@ plugin.tx_comvosfilelist_pi1 {
            ## MyUniqueTemplateName must be defined in flexform / pageTS @see pageTS-example.txt for information
            # MyUniqueTemplateName = fileadmin/PathToMyTemplate/
 
+           # Sampletemplate with secure streaming feature
+           default = typo3conf/ext/comvosfilelist/templates/secure
            ## change default template
            #default = fileadmin/PathToMyDefaultTemplate/
-           # Sampletemplate without secure streaming feature
-           #default = typo3conf/ext/comvosfilelist/templates/unsecure
         }
 	
 }
-
+tt_content.list.20.comvosfilelist_pi1 =<  plugin.tx_comvosfilelist_pi1
 
 #to replace existing mm_dam_filelist plugins with comvosfilelistplugin add this line 
 #tt_content.list.20.mm_dam_filelist_pi1 =< plugin.tx_comvosfilelist_pi1

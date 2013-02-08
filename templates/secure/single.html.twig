@@ -1,25 +1,43 @@
-{# empty Twig template #}
+{{ includeStylesheet('../css/comvosfilelist-default.css') }}
+
+{% if file.meta.title and conf.useDAM  %}
+    {{ overwritePageTitle(file.meta.title ~ ' - ' ~ tsfe.page.title) }}
+{% else %}
+    {{ overwritePageTitle(file.filename ~ ' - ' ~ tsfe.page.title) }}
+{% endif %}
+{% if file.meta.description and conf.useDAM %}
+    {{ overwritePageDescription(file.meta.description) }}
+{% endif %}
 
 <h1>{{ file.filename }} </h1>
-{% if file.extension in ['pdf','jpg','gif'] %}
-{% set thumb = previewImage(file.realpath,{"width": 70,"height": 100,'folder':'comvosfilelist' }) %}
+
+{% if file.extension in ['pdf','jpg','gif','png'] %}
+{% set thumb = previewImage(file.realpath,{"maxW": 200,'folder':'comvosfilelist/' ~ pageid }) %}
 
     {% if thumb %}
-    <img src="{{ thumb }}" alt="{{ file.filename }}" />
+    <a href="{{ file|t3webpath|t3securefile }}">
+        <img src="{{ thumb }}" alt="{{ file.filename }}" />
+    </a>
     {% endif %}
-
-{% else %}
 
 {% endif %}
-<p>{{ file.meta.description }}</p>
+{% if conf.useDAM %}
+    {% for metakey, metavalue in file.meta %}
+        {% if metavalue %}
+        <h3>{{ metakey|t3trans(metakey) }}</h3>
+        <p>{{ metavalue }}</p>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<p>
+    <a href="{{ file|t3webpath|t3securefile }}">
 
-<a href="{{ file|t3webpath|t3securefile }}">
-     
-    {{ file.filename }} (
-    {% if file.size > 1024 %}            
-        {{ (file.size // 1024)|number_format(0,',','.') }} KB 
-    {% else %}
-        {{ file.size|number_format(0,',','.') }} B 
-    {% endif %}
-    )   
-</a>
+        {{ file.filename }} (
+        {% if file.size > 1024 %}            
+            {{ (file.size // 1024)|number_format(0,',','.') }} KB 
+        {% else %}
+            {{ file.size|number_format(0,',','.') }} B 
+        {% endif %}
+        )   
+    </a>
+</p>

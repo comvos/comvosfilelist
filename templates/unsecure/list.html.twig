@@ -1,9 +1,9 @@
-{{ includeStylesheet('/typo3conf/ext/comvosfilelist/templates/css/comvosfilelist-default.css') }}
+{{ includeStylesheet('../css/comvosfilelist-default.css') }}
 
 {% if filelist.count == 0 %}
     {{ 'Keine Einträge gefunden'|t3trans('noentries') }}
 {% else %}
-    {{ filelist.count }} Dateien
+    {{ filelist.count }} {{ 'Files'|t3trans('files') }}
 {% endif %}
     
 {% spaceless %}
@@ -15,59 +15,55 @@
                 <table>
                     <tr>
 		    <td class="thumb">
-                            <div>
-                                {% if file.extension in ['pdf','jpg','gif'] %}
-                                {% set thumb = previewImage(file.realpath,{ 'maxW': 150 }) %}
+                                {% if file.extension in ['pdf','jpg','gif','png'] %}
+                                {% set thumb = previewImage(file.realpath,{ 'maxW':70 }) %}
                                 {% set bigPreview = previewImage(file.realpath,{ 'maxW': 400 }) %}    
                                     {% if thumb %}
-                                    <span class="tx-mmdamfilelist-pi1-image tx-mmdamfilelist-pi1-image-0">
+                                    
                                     <a href="{{ bigPreview }}" target="_blank">
                                         <img src="{{ thumb }}" alt="{{ file.meta.title }}" title="{{ file.meta.title }}">
-                                        </a>
-                                    <br>
-                                    </span>
+                                    </a>
+                                    
                                    
                                     {% endif %}
 
                                 {% else %}
 
                                 {% endif %}
-                                
-                                
-                            </div>
-		    
                     </td>
-                    <td>
+                    
+                    <td>    
                         <div class="ff-fix-wrapper">
 
-                        <a href="{{ singleViewLink }}" class="filetitle filetype-{{ file.extension }}">
+                            <a href="{{ singleViewLink }}" class="filetitle filetype-{{ file.extension }}">
+                                {%- if conf.useDAM -%}
+                                         {{- file.meta.title -}}
+                                {%- else -%}
+                                         {{- file.filename -}}
+                                {%- endif -%}
+                            </a>
+
+
+                            <span class="fileinfo">
+                                ({{ file.extension }}: 
+                                {% if file.size > 1024 -%}            
+                                    {{ (file.size // 1024)|number_format(0,',','.') }} KB)
+                                {%- else -%}
+                                    {{ file.size|number_format(0,',','.') }} B) 
+                                {%- endif -%}
+                            </span>
+
+                            <a class="downloadlink" href="{{ downloadLink }}">Download</a>
+
                             {%- if conf.useDAM -%}
-                                     {{- file.meta.title -}}
-                            {%- else -%}
-                                     {{- file.filename -}}
-                            {%- endif -%}
-                        </a>
+                            <div class="description">                            
+                                {{ file.meta.description }}
+                            </div>
+                            {% endif %}
 
-
-                        <span class="fileinfo">
-                            ({{ file.extension }}: 
-                            {% if file.size > 1024 -%}            
-                                {{ (file.size // 1024)|number_format(0,',','.') }} KB)
-                            {%- else -%}
-                                {{ file.size|number_format(0,',','.') }} B) 
-                            {%- endif -%}
-                        </span>
-
-                        <a class="downloadlink" href="{{ downloadLink }}">Download</a>
-                        
-                        {%- if conf.useDAM -%}
-                        <div class="description">                            
-                            {{ file.meta.description }}
                         </div>
-                        {% endif %}
-
-                    </div>
                     </td>
+                    
                     </tr>
                
                </table>
@@ -76,11 +72,10 @@
 
 {% endspaceless %}
 
-
 {% if filelist.lastpage > 1 %}
 <div class="pager">
     {% if filelist.page > 1 %}
-        <a href="{{ typolink(conf.listPageId,{"additionalParams":"&tx_comvosfilelist_pi1[page]=" ~ (filelist.page-1)}) }}" >Zurück</a>
+        <a href="{{ typolink(conf.listPageId,{"additionalParams":"&tx_comvosfilelist_pi1[page]=" ~ (filelist.page-1)}) }}" >{{ 'previous'|t3trans('previous') }}</a>
     {% endif %}
 
     {% for i in range(1, filelist.lastpage) %}
@@ -93,9 +88,10 @@
 
 
     {% if filelist.page < filelist.lastpage %}
-        <a href="{{ typolink(conf.listPageId,{"additionalParams":"&tx_comvosfilelist_pi1[page]=" ~ (filelist.page+1)}) }}" >Vor</a>
+        <a href="{{ typolink(conf.listPageId,{"additionalParams":"&tx_comvosfilelist_pi1[page]=" ~ (filelist.page+1)}) }}" > {{ 'next'|t3trans('next') }}</a>
     {% endif %}
-    
+
 </div>
 {% endif %}
+
 
