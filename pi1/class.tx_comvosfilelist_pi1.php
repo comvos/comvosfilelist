@@ -2,9 +2,6 @@
 
 use Doctrine\DBAL\DriverManager;
 
-require t3lib_extMgm::extPath('comvosfilelist') . 'vendor/doctrine/common/lib/Doctrine/Common/ClassLoader.php';
-
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -319,12 +316,6 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
 
         //Load Lang
         $this->pi_loadLL();
-
-
-        //autoloader from composer
-        $autoloader = require t3lib_extMgm::extPath('comvosfilelist') . 'vendor/autoload.php';
-        $autoloader->add('Comvos_', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
-        $autoloader->add('Comvos', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
 
         $extconf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comvosfilelist']);
 

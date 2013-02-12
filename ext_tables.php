@@ -28,10 +28,10 @@ if (TYPO3_MODE === 'BE') {
     $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_comvosfilelist_pi1_wizicon'] = t3lib_extMgm::extPath($_EXTKEY) . 'pi1/class.tx_comvosfilelist_pi1_wizicon.php';
     
     //autoloader from composer
-    $autoloader = require t3lib_extMgm::extPath('comvosfilelist') . 'vendor/autoload.php';
-    $autoloader->add('Comvos_', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
-    $autoloader->add('Comvos', t3lib_extMgm::extPath('comvosfilelist') . 'src/');
-
+    if(!class_exists(Tx_CunddComposer_Autoloader)){
+        require_once t3lib_extMgm::extPath('cundd_composer') . 'Classes/Autoloader.php';
+        Tx_CunddComposer_Autoloader::register();
+    }
     
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['comvosfilelist'] = array('Comvos_TYPO3_Filelist_SecurefolderReport');
 

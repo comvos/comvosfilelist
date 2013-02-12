@@ -1,4 +1,11 @@
 {
+   "autoload": {
+        "psr-0": {
+            "Comvos\\TYPO3\\Doctrine": "src/",
+            "Comvos_TYPO3_Twig": "src/",
+            "Comvos_TYPO3_Filelist": "src/"
+        }
+   },
    "require": {
         "twig/twig": "1.11",
 	"doctrine/dbal": "2.3.1",

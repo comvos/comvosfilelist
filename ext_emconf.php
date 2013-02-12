@@ -33,6 +33,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.3.0-4.7.99',
+                        'cundd_composer'=>''
 		),
 		'conflicts' => array(
 			'mm_dam_filelist' => '',
