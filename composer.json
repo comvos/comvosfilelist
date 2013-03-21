@@ -3,7 +3,8 @@
         "psr-0": {
             "Comvos\\TYPO3\\Doctrine": "src/",
             "Comvos_TYPO3_Twig": "src/",
-            "Comvos_TYPO3_Filelist": "src/"
+            "Comvos_TYPO3_Filelist": "src/",
+            "Comvos_TYPO3_Extension": "src/"
         }
    },
    "require": {

@@ -1,9 +1,10 @@
 <?php
 
+use Doctrine\DBAL\DriverManager;
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2012 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
+ *  (c) 2013 comvos online medien GmbH, Nabil Saleh <saleh@comvos.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,151 +25,92 @@
  * ************************************************************* */
 
 /**
- * Description of Typo3_Twig_Extension
+ * Description of Comvos_TYPO3_Extension
  *
  * @author nsaleh
  */
-class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
-
-    public function __construct($plugin = null) {
-        $this->plugin = $plugin;
-    }
+class Comvos_TYPO3_Extension_Extension extends tslib_pibase {
 
     /**
-     * FE Plugin 
-     * @var tslib_pibase
+     * @var Twig_Environment
      */
-    protected $plugin = null;
+    protected $twig = null;
 
-    public function getPlugin() {
-        return $this->plugin;
+    /**
+     * @var \Doctrine\DBAL\Connection
+     */
+    protected $connection = null;
+
+    /**
+     * - Initialize configuration
+     * - setup autoloading and doctrine and twig
+     * @param mixed $typoScriptConf
+     */
+    protected function initConf($typoScriptConf, $configurationDefaults = array()) {
+        
+        $this->extconf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comvosfilelist']);
+
+        $this->pi_setPiVarDefaults();
+        //Load Lang
+        $this->pi_loadLL();
+
+        $this->pi_initPIflexform();
+
+        $this->conf = array_merge($configurationDefaults, $typoScriptConf);
+        $this->ffConf = self::getFFSheetvalues($this->cObj->data['pi_flexform'], 'sDEF');
+        
     }
 
-    public function setPlugin($plugin) {
-        $this->plugin = $plugin;
-    }
+    protected function initObjects() {
 
-    public function getName() {
-        return 'comvostypo3';
-    }
+        //init doctrine DBAL
+        $config = new \Doctrine\DBAL\Configuration();
 
-    public function getFunctions() {
-
-        return array(
-            'typolink' => new Twig_Function_Method($this, 'typolink'),
-            'previewImage' => new Twig_Function_Method($this, 'previewImage'),
-            'includeStylesheet' => new Twig_Function_Method($this, 'includeStylesheet'),
-            'includeJavascript' => new Twig_Function_Method($this, 'includeJavascript'),
-            'overwritePageTitle' => new Twig_Function_Method($this, 'overwritePageTitle'),
-            'overwritePageDescription' => new Twig_Function_Method($this, 'overwritePageDescription'),
+        $connectionParams = array(
+            'driver' => 'pdo_mysql',
+            'wrapperClass' => 'Comvos\TYPO3\Doctrine\DBAL\Connection'
         );
-    }
+        $this->connection = DriverManager::getConnection($connectionParams, $config);
 
-    public function getFilters() {
-        return array(
-            't3trans' => new Twig_Filter_Method($this, 't3trans'),
-            't3webpath' => new Twig_Filter_Method($this, 't3webpath'),
-        );
-    }
-
-    public function t3trans($alt = '', $key = '') {
-
-        return $this->plugin->pi_getLL($key, $alt);
-    }
-
-    public function t3webpath($abspath) {
-
-        return str_replace(PATH_site, '', (string) $abspath);
-    }
-
-    public function typolink($pageId, $options = array()) {
-
-        $cObj = t3lib_div::makeInstance('tslib_cObj');
-
-        $conf = array_merge(array(
-            'parameter' => $pageId,
-            // We must add cHash because we use parameters
-            'useCacheHash' => true,
-            // We want link only
-            'returnLast' => 'url',
-                ), $options);
-        $url = $cObj->typoLink('', $conf);
-        return $url;
-    }
-
-    public function previewImage($filename, $options = array(
-    )
-    ) {
-        $defaults = array(
-            'maxW' => '',
-            'maxH' => '',
-            'height' => '',
-            'width' => '',
-            'folder' => '',
-            'params' => '',
-            'mustCreate' => 0
-        );
-        $options = array_merge($defaults, $options);
-        $imageProc = t3lib_div::makeInstance('t3lib_stdGraphic');
-
-        $imageProc->init();
-
-        $imageProc->tempPath = PATH_site . 'typo3temp/';
-        if ($options['folder']) {
-            if (!file_exists($imageProc->tempPath . $options['folder'])) {
-                mkdir($imageProc->tempPath . $options['folder'], 0775, true);
+        //init twig
+        $templateFolder = '';
+        if (isset($this->conf['templateFolders.'][$this->conf['template']])) {
+            $temporaryTemplateFolder = t3lib_div::getFileAbsFileName($this->conf['templateFolders.'][$this->conf['template']]);
+            if (file_exists($temporaryTemplateFolder)) {
+                $templateFolder = $temporaryTemplateFolder;
             }
-            $imageProc->tempPath .= $options['folder'] . '/';
-        }
-
-        $ret = $imageProc->imageMagickConvert($filename, 'jpg', $options['width'], $options['height'], $options['params'], $options['frame'], $options, $options['mustCreate']
-        );
-        return str_replace(PATH_site, '/', $ret[3]);
-    }
-
-    protected function getRelativeAssetPath($filename) {
-
-        if (strpos($filename, '/') !== 0) {
-            $filename = '/' . $filename;
-        }
-
-        if (file_exists(preg_replace('/^\//', PATH_site, $filename))) {
-            return $filename;
-        }
-
-
-        $template = null;
-        foreach (debug_backtrace() as $trace) {
-            if (isset($trace['object']) && $trace['object'] instanceof Twig_Template && 'Twig_Template' !== get_class($trace['object'])) {
-                $template = $trace['object'];
+        } else {
+            if ($this->conf['template']) {
+                throw new Exception('Template not configured in TS "templateFolders": "' . $this->conf['template'] . '"');
             }
         }
-        if (isset($template)) {
-            foreach ($template->getEnvironment()->getLoader()->getPaths() as $path) {
-                if (file_exists($path . $filename)) {
-                    return str_replace(PATH_site, '/', $path . $filename);
-                }
+
+        //init view
+        $cachefolder = PATH_site . 'typo3temp/' . $this->extKey . '/twigcache';
+        if (!file_exists($cachefolder)) {
+            mkdir($cachefolder, $TYPO3_CONF_VARS['BE']['folderCreateMask'] ? $TYPO3_CONF_VARS['BE']['folderCreateMask'] : 0775);
+        }
+        $loader = new Twig_Loader_Filesystem($templateFolder);
+        $this->twig = new Twig_Environment($loader, array(
+                    'cache' => $this->conf['cacheTwig'] ? $cachefolder : false,
+                ));
+        $this->twig->addGlobal('conf', $this->conf);
+        $this->twig->addGlobal('tsfe', $GLOBALS['TSFE']);
+
+        $this->twig->addExtension(new Comvos_TYPO3_Twig_Extension($this));
+    }
+
+    static protected function getFFSheetvalues($flex, $sheetTitle) {
+        if (!isset($flex['data'][$sheetTitle])) {
+            return array();
+        }
+        $sheetData = array();
+        foreach ($flex['data'][$sheetTitle] as $sheetField) {
+            foreach ($sheetField as $fname => $fvalue) {
+                $sheetData[$fname] = $fvalue['vDEF'];
             }
         }
-        throw new Exception('Asset not found: "' . $filename . '"');
-    }
-
-    public function includeStylesheet($filename, $media = 'screen') {
-        $filename = $this->getRelativeAssetPath($filename);
-        $GLOBALS['TSFE']->additionalHeaderData['twigconnector'] .= '<link rel="stylesheet"  media="' . $media . '"  type="text/css" href="' . $filename . '" />';
-    }
-
-    public function includeJavascript($filename) {
-        $filename = $this->getRelativeAssetPath($filename);
-        $GLOBALS['TSFE']->additionalHeaderData['twigconnector'] .= '<script type="text/javascript" src="' . $filename . '"></script>';
-    }
-
-    public function overwritePageTitle($title) {
-        $GLOBALS['TSFE']->page['title'] = $title;
-    }
-
-    public function overwritePageDescription($description) {
-        $GLOBALS['TSFE']->page['description'] = $description;
+        return $sheetData;
     }
 
 }

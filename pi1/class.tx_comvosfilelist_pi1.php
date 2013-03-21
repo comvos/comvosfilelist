@@ -1,7 +1,4 @@
 <?php
-
-use Doctrine\DBAL\DriverManager;
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -32,7 +29,7 @@ use Doctrine\DBAL\DriverManager;
  * @package	TYPO3
  * @subpackage	tx_comvosfilelist
  */
-class tx_comvosfilelist_pi1 extends tslib_pibase {
+class tx_comvosfilelist_pi1 extends Comvos_TYPO3_Extension_Extension {
 
     public $prefixId = 'tx_comvosfilelist_pi1';  // Same as class name
     public $scriptRelPath = 'pi1/class.tx_comvosfilelist_pi1.php'; // Path to this script relative to the extension dir.
@@ -65,6 +62,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
     public function main($content, array $conf) {
 
         $this->initConf($conf);
+        $this->initObjects();
 
         $content = '';
 
@@ -231,25 +229,7 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
                 );
     }
 
-    static protected function getFFSheetvalues($flex, $sheetTitle) {
-        if (!isset($flex['data'][$sheetTitle])) {
-            return array();
-        }
-        $sheetData = array();
-        foreach ($flex['data'][$sheetTitle] as $sheetField) {
-            foreach ($sheetField as $fname => $fvalue) {
-                $sheetData[$fname] = $fvalue['vDEF'];
-            }
-        }
-        return $sheetData;
-    }
-
-    /**
-     * - Initialize configuration with defaults, typoscriptconf and flexform 
-     * - setup autoloading and doctrine and twig
-     * @param mixed $typoScriptConf
-     */
-    protected function initConf($typoScriptConf) {
+    protected function initConf($typoScriptConf, $configurationDefaults = array()) {
         $configurationDefaults = array(
             'singlePageId' => $GLOBALS['TSFE']->id,
             'listPageId' => $GLOBALS['TSFE']->id,
@@ -259,10 +239,8 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
             'template' => 'default',
             'cacheTwig' => false
         );
+        parent::initConf($typoScriptConf, $configurationDefaults);
 
-        $this->conf = array_merge($configurationDefaults, $typoScriptConf);
-        $this->pi_initPIflexform();
-        $ffConf = self::getFFSheetvalues($this->cObj->data['pi_flexform'], 'sDEF');
 
 
         // plugin is mm_dam_filelist replacement, try to merge config as far as possible
@@ -279,89 +257,53 @@ class tx_comvosfilelist_pi1 extends tslib_pibase {
 
             $this->conf['mm_dam_filelist'] = $ffConfMMDamFilelist;
 
-            $ffConf['category'] = $ffConfMMDamFilelist['sCATEGORIES']['category'];
-            $ffConf['entriesPerPage'] = $ffConfMMDamFilelist['sLISTVIEW']['results_at_a_time'];
-            $ffConf['template'] = 'default';
+            $this->ffConf['category'] = $ffConfMMDamFilelist['sCATEGORIES']['category'];
+            $this->ffConf['entriesPerPage'] = $ffConfMMDamFilelist['sLISTVIEW']['results_at_a_time'];
+            $this->ffConf['template'] = 'default';
             if ($ffConfMMDamFilelist['sLISTVIEW']['templatefile']) {
                 //generate templateIdentifier to allow replacement of old templates
                 //all chars, that are not letters or numbers are converted to "_" "mytemplate.html" => "mytemplate_html"
                 //check "uploads/tx_mmdamfilelist" for old templates!
                 $templateIdentifier = preg_replace('/[^a-zA-Z0-9]/', '_', $ffConfMMDamFilelist['sLISTVIEW']['templatefile']);
-                $ffConf['template'] = $templateIdentifier;
+                $this->ffConf['template'] = $templateIdentifier;
             }
         }
 
         //overwrite TS-conf with FF values
-        if ($ffConf['entriesPerPage']) {
-            $this->conf['entriesPerPage'] = $ffConf['entriesPerPage'];
+        if ($this->ffConf['entriesPerPage']) {
+            $this->conf['entriesPerPage'] = $this->ffConf['entriesPerPage'];
         }
-        if ($ffConf['directory']) {
-            $this->conf['directory'] = $ffConf['directory'];
+        if ($this->ffConf['directory']) {
+            $this->conf['directory'] = $this->ffConf['directory'];
         }
-        if ($ffConf['category']) {
-            $this->conf['category'] = $ffConf['category'];
+        if ($this->ffConf['category']) {
+            $this->conf['category'] = $this->ffConf['category'];
         }
-        if ($ffConf['useDAM']) {
-            if ($ffConf['useDAM'] == 'true') {
+        if ($this->ffConf['useDAM']) {
+            if ($this->ffConf['useDAM'] == 'true') {
                 $this->conf['useDAM'] = true;
             } else {
                 $this->conf['useDAM'] = false;
             }
         }
 
-        $this->conf['template'] = $ffConf['template'];
+        $this->conf['template'] = $this->ffConf['template'];
 
+        
 
-        $this->pi_setPiVarDefaults();
+        
+    }
 
-        //Load Lang
-        $this->pi_loadLL();
-
-        $extconf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comvosfilelist']);
-
-        if (!$extconf['enryptionKey']) {
+    protected function initObjects() {
+        
+        if (!$this->extconf['enryptionKey']) {
             throw new Exception('comvosfilelist: You MUST set an enryptionKey in extension configuration (extensionmanager).');
         }
-
-        $this->encryptionTool = new Comvos_TYPO3_Filelist_EncryptionTool($extconf['enryptionKey']);
-
-        //init doctrine DBAL
-        $config = new \Doctrine\DBAL\Configuration();
-
-        $connectionParams = array(
-            'driver' => 'pdo_mysql',
-            'wrapperClass' => 'Comvos\TYPO3\Doctrine\DBAL\Connection'
-        );
-        $this->connection = DriverManager::getConnection($connectionParams, $config);
-
-
-        //init twig
-        $templateFolder = t3lib_extMgm::extPath('comvosfilelist') . 'templates/secure';
-        if (isset($this->conf['templateFolders.'][$this->conf['template']])) {
-            $temporaryTemplateFolder = t3lib_div::getFileAbsFileName($this->conf['templateFolders.'][$this->conf['template']]);
-            if (file_exists($temporaryTemplateFolder)) {
-                $templateFolder = $temporaryTemplateFolder;
-            }
-        } else {
-            if ($this->conf['template']) {
-                throw new Exception('Template not configured in TS "templateFolders": "' . $this->conf['template'] . '"');
-            }
-        }
-
-        //init view
-        $cachefolder = PATH_site . 'typo3temp/comvosfilelist/twigcache';
-        if (!file_exists($cachefolder)) {
-            mkdir($cachefolder, $TYPO3_CONF_VARS['BE']['folderCreateMask'] ? $TYPO3_CONF_VARS['BE']['folderCreateMask'] : 0775);
-        }
-        $loader = new Twig_Loader_Filesystem($templateFolder);
-        $this->twig = new Twig_Environment($loader, array(
-                    'cache' => $this->conf['cacheTwig'] ? $cachefolder : false,
-                ));
-        $this->twig->addGlobal('conf', $this->conf);
-        $this->twig->addGlobal('tsfe', $GLOBALS['TSFE']);
-
-        $this->twig->addExtension(new Comvos_TYPO3_Twig_Extension($this));
-
+        
+        $this->encryptionTool = new Comvos_TYPO3_Filelist_EncryptionTool($this->extconf['enryptionKey']);
+        
+        parent::initObjects();
+        
         $this->twig->addExtension(new Comvos_TYPO3_Filelist_Twig_Extension($this));
     }
 
