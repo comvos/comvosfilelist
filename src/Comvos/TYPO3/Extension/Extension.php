@@ -1,6 +1,8 @@
 <?php
 
 use Doctrine\DBAL\DriverManager;
+use Symfony\Component\HttpFoundation\Request;
+
 /* * *************************************************************
  *  Copyright notice
  *
@@ -42,21 +44,28 @@ class Comvos_TYPO3_Extension_Extension extends tslib_pibase {
     protected $connection = null;
 
     /**
+     * @var 
+     */
+    protected $request = null;
+    /**
      * - Initialize configuration
-     * - setup autoloading and doctrine and twig
+     * - setup doctrine and twig
      * @param mixed $typoScriptConf
      */
     protected function initConf($typoScriptConf, $configurationDefaults = array()) {
         
-        $this->extconf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['comvosfilelist']);
+        $this->request = Request::createFromGlobals();
+        
+        $this->extconf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 
+        $this->conf = array_merge($configurationDefaults, $typoScriptConf);
+        
         $this->pi_setPiVarDefaults();
         //Load Lang
         $this->pi_loadLL();
 
         $this->pi_initPIflexform();
 
-        $this->conf = array_merge($configurationDefaults, $typoScriptConf);
         $this->ffConf = self::getFFSheetvalues($this->cObj->data['pi_flexform'], 'sDEF');
         
     }
@@ -71,7 +80,7 @@ class Comvos_TYPO3_Extension_Extension extends tslib_pibase {
             'wrapperClass' => 'Comvos\TYPO3\Doctrine\DBAL\Connection'
         );
         $this->connection = DriverManager::getConnection($connectionParams, $config);
-
+        
         //init twig
         $templateFolder = '';
         if (isset($this->conf['templateFolders.'][$this->conf['template']])) {
@@ -90,6 +99,7 @@ class Comvos_TYPO3_Extension_Extension extends tslib_pibase {
         if (!file_exists($cachefolder)) {
             mkdir($cachefolder, $TYPO3_CONF_VARS['BE']['folderCreateMask'] ? $TYPO3_CONF_VARS['BE']['folderCreateMask'] : 0775);
         }
+        
         $loader = new Twig_Loader_Filesystem($templateFolder);
         $this->twig = new Twig_Environment($loader, array(
                     'cache' => $this->conf['cacheTwig'] ? $cachefolder : false,
@@ -112,6 +122,30 @@ class Comvos_TYPO3_Extension_Extension extends tslib_pibase {
         }
         return $sheetData;
     }
+    public function getTwig() {
+        return $this->twig;
+    }
+
+    public function setTwig($twig) {
+        $this->twig = $twig;
+    }
+
+    public function getConnection() {
+        return $this->connection;
+    }
+
+    public function setConnection($connection) {
+        $this->connection = $connection;
+    }
+
+    public function getRequest() {
+        return $this->request;
+    }
+
+    public function setRequest($request) {
+        $this->request = $request;
+    }
+
 
 }
 

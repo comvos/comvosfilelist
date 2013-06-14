@@ -43,16 +43,6 @@ class tx_comvosfilelist_pi1 extends Comvos_TYPO3_Extension_Extension {
     protected $encryptionTool = null;
 
     /**
-     * @var Twig_Environment
-     */
-    public $twig = null;
-
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    public $connection = null;
-
-    /**
      * The main method of the Plugin.
      *
      * @param string $content The Plugin content

@@ -8,10 +8,11 @@
         }
    },
    "require": {
-        "twig/twig": "1.11",
+        "twig/twig": "1.*",
 	"doctrine/dbal": "2.3.1",
         "symfony/finder": "2.1.4",
-        "symfony/filesystem" : "2.1"
+        "symfony/filesystem" : "2.1",
+        "symfony/http-foundation": "2.2.*"
    }
 
 }

@@ -61,6 +61,7 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
             'includeJavascript' => new Twig_Function_Method($this, 'includeJavascript'),
             'overwritePageTitle' => new Twig_Function_Method($this, 'overwritePageTitle'),
             'overwritePageDescription' => new Twig_Function_Method($this, 'overwritePageDescription'),
+            'debugLL' => new Twig_Function_Method($this, 'debugLL'),
         );
     }
 
@@ -70,7 +71,9 @@ class Comvos_TYPO3_Twig_Extension extends Twig_Extension {
             't3webpath' => new Twig_Filter_Method($this, 't3webpath'),
         );
     }
-
+    public function debugLL(){
+        return print_r($this->plugin->LLkey,true).print_r($this->plugin->LOCAL_LANG,true);
+    }
     public function t3trans($alt = '', $key = '') {
 
         return $this->plugin->pi_getLL($key, $alt);

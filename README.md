@@ -81,6 +81,9 @@ With apache the rewrite configuration looks like this:
 
 `RewriteRule ^/comvosfilelist/(.*)/(.*)/(.*) /index.php?id=$1&tx_comvosfilelist_pi1[action]=stream&tx_comvosfilelist_pi1[file]=$2&cHash=$3 [L]`
 
+or when using htaccess without prepended slash
+
+`RewriteRule ^/comvosfilelist/(.*)/(.*)/(.*) index.php?id=$1&tx_comvosfilelist_pi1[action]=stream&tx_comvosfilelist_pi1[file]=$2&cHash=$3 [L]`
 
 ### 3. Installing the extension ###
 
