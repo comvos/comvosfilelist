@@ -124,7 +124,7 @@ class tx_comvosfilelist_pi1 extends Comvos_TYPO3_Extension_Extension {
         if (strpos($filename, '/typo3temp/comvosfilelist/') === 0) {
             header('Content-type: image/jpeg');
         } else {
-            header("Content-disposition: attachment; filename=" . $filenameForStreaming);
+            header("Content-disposition: attachment; filename=\"" . $filenameForStreaming.'"');
             header('Content-type: application/octet-stream'); //Force browser to download
         }
 
@@ -246,7 +246,6 @@ class tx_comvosfilelist_pi1 extends Comvos_TYPO3_Extension_Extension {
             $this->conf['isDamFilelistCE'] = true;
 
             $this->conf['mm_dam_filelist'] = $ffConfMMDamFilelist;
-
             $this->ffConf['category'] = $ffConfMMDamFilelist['sCATEGORIES']['category'];
             $this->ffConf['entriesPerPage'] = $ffConfMMDamFilelist['sLISTVIEW']['results_at_a_time'];
             $this->ffConf['template'] = 'default';

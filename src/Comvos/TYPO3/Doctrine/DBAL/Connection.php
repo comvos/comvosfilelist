@@ -20,7 +20,7 @@ class Connection extends \Doctrine\DBAL\Connection {
                 'dbname' => TYPO3_db,
                 'user' => TYPO3_db_username,
                 'password' => TYPO3_db_password,
-                'host' => 'localhost',
+                'host' => TYPO3_db_host,
                 'driverOptions' => array(
                     1002 => 'SET NAMES utf8'
                     )));
