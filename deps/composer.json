@@ -1,0 +1,18 @@
+{
+   "autoload": {
+        "psr-0": {
+            "Comvos\\TYPO3\\Doctrine": "../src/",
+            "Comvos_TYPO3_Twig": "../src/",
+            "Comvos_TYPO3_Filelist": "../src/",
+            "Comvos_TYPO3_Extension": "../src/"
+        }
+   },
+   "require": {
+        "twig/twig": "1.*",
+	"doctrine/dbal": "2.3.1",
+        "symfony/finder": "2.1.4",
+        "symfony/filesystem" : "2.1",
+        "symfony/http-foundation": "2.2.*"
+   }
+
+}
